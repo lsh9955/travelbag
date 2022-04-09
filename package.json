@@ -1,0 +1,23 @@
+{
+  "name": "travelbag",
+  "version": "1.0.0",
+  "description": "![여행가방](https://user-images.githubusercontent.com/72291472/162385187-e2dd5609-5f8b-4897-9826-387f9ce8c5d1.png)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lsh9955/travelbag.git"
+  },
+  "author": "lsh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lsh9955/travelbag/issues"
+  },
+  "homepage": "https://github.com/lsh9955/travelbag#readme",
+  "dependencies": {
+    "mongoose": "^6.2.10"
+  }
+}
