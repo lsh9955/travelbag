@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
-
+import Dropzone from "react-dropzone";
 import { createPost, updatePost } from "../../actions/posts";
 import useStyles from "./styles";
+import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
+import { storage } from "../../firebase";
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({ title: "", message: "", tags: [], selectedFile: "" });
@@ -14,18 +16,37 @@ const Form = ({ currentId, setCurrentId }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem("profile"));
-  const history = useNavigate();
+  const history = useHistory();
+  const [progress, setProgress] = useState(0);
 
   const clear = () => {
     setCurrentId(0);
     setPostData({ title: "", message: "", tags: [], selectedFile: "" });
   };
 
+  const onDrop = (files) => {
+    if (!files[0]) return;
+
+    const storageRef = ref(storage, `/files/${files[0].name + Date.now()}`);
+    const uploadTask = uploadBytesResumable(storageRef, files[0]);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const pg = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        setProgress(pg);
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => setPostData({ ...postData, selectedFile: url }));
+      }
+    );
+  };
+
   useEffect(() => {
     if (!post?.title) clear();
     if (post) setPostData(post);
   }, [post]);
-
+  useEffect(() => {}, [postData.selectedFile]);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -65,14 +86,20 @@ const Form = ({ currentId, setCurrentId }) => {
         <div style={{ padding: "5px 0", width: "94%" }}>
           <ChipInput name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onAdd={(chip) => handleAddChip(chip)} onDelete={(chip) => handleDeleteChip(chip)} />
         </div>
-        <div className={classes.fileInput}>
-          <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
-        </div>
+        <Dropzone onDrop={onDrop} multiple={false} maxSize={800000000}>
+          {({ getRootProps, getInputProps }) => (
+            <div style={{ width: "300px", height: "240px", border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center" }} {...getRootProps()}>
+              <input {...getInputProps()} />+
+            </div>
+          )}
+        </Dropzone>
+        {progress}% 업로드 완료
+        <div>{postData.selectedFile ? <img src={`${postData.selectedFile}`} /> : ""}</div>
         <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>
-          Submit
+          글 올리기
         </Button>
         <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>
-          Clear
+          모두 취소
         </Button>
       </form>
     </Paper>

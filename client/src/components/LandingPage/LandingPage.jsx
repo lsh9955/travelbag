@@ -6,9 +6,8 @@ import LuggageIcon from "@mui/icons-material/Luggage";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useTheme } from "@mui/material/styles";
-import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 
-export const LandingPage = () => {
+const LandingPage = () => {
   const theme = useTheme();
   return (
     <>
@@ -19,7 +18,7 @@ export const LandingPage = () => {
           <h1 style={{ fontSize: "40px", color: "white", margin: "0 0 0 0", lineHeight: "130%" }}>당신의 여행을 담아드립니다</h1>
         </div>
         <div style={{ height: "20vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Link to="/main" style={{ textDecoration: "none" }}>
+          <Link to="/posts" style={{ textDecoration: "none" }}>
             <Button
               size="medium"
               sx={{
@@ -43,3 +42,4 @@ export const LandingPage = () => {
     </>
   );
 };
+export default LandingPage;
