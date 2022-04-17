@@ -6,7 +6,7 @@ import ChipInput from "material-ui-chip-input";
 import Dropzone from "react-dropzone";
 import { createPost, updatePost } from "../../actions/posts";
 import useStyles from "./styles";
-import axios from "axios";
+
 import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
 import { storage } from "../../firebase";
 
@@ -28,7 +28,7 @@ const Write = () => {
   const onDrop = (files) => {
     if (!files[0]) return;
     const storageRef = ref(storage, `/files/${files[0].name + Date.now()}`);
-    axios.put("https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/axn4mgtldkdn/b/bucket-20220413-2157/o/img", files[0]).then((res) => console.log(res));
+
     const uploadTask = uploadBytesResumable(storageRef, files[0]);
     uploadTask.on(
       "state_changed",
