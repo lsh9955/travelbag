@@ -18,7 +18,7 @@ const LandingPage = () => {
           <h1 style={{ fontSize: "40px", color: "white", margin: "0 0 0 0", lineHeight: "130%" }}>당신의 여행을 담아드립니다</h1>
         </div>
         <div style={{ height: "20vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Link to="/posts" style={{ textDecoration: "none" }}>
+          <Link to="/post" style={{ textDecoration: "none" }}>
             <Button
               size="medium"
               sx={{

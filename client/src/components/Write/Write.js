@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import FileBase from "react-file-base64";
 import { useHistory } from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
 import Dropzone from "react-dropzone";
 import { createPost, updatePost } from "../../actions/posts";
 import useStyles from "./styles";
+import axios from "axios";
 import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
 import { storage } from "../../firebase";
 
-const Form = ({ currentId, setCurrentId }) => {
+const Write = () => {
+  const [currentId, setCurrentId] = useState(0);
   const [postData, setPostData] = useState({ title: "", message: "", tags: [], selectedFile: "" });
   const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
@@ -26,8 +27,8 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const onDrop = (files) => {
     if (!files[0]) return;
-
     const storageRef = ref(storage, `/files/${files[0].name + Date.now()}`);
+    axios.put("https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/axn4mgtldkdn/b/bucket-20220413-2157/o/img", files[0]).then((res) => console.log(res));
     const uploadTask = uploadBytesResumable(storageRef, files[0]);
     uploadTask.on(
       "state_changed",
@@ -63,7 +64,7 @@ const Form = ({ currentId, setCurrentId }) => {
     return (
       <Paper className={classes.paper} elevation={6}>
         <Typography variant="h6" align="center">
-          Please Sign In to create your own memories and like other's memories.
+          로그인해주세요
         </Typography>
       </Paper>
     );
@@ -80,11 +81,11 @@ const Form = ({ currentId, setCurrentId }) => {
   return (
     <Paper className={classes.paper} elevation={6}>
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-        <Typography variant="h6">{currentId ? `Editing "${post?.title}"` : "Creating a Memory"}</Typography>
-        <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
-        <TextField name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
+        <Typography variant="h6">{currentId ? `Editing "${post?.title}"` : "게시글 쓰기"}</Typography>
+        <TextField name="title" variant="outlined" label="제목" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
+        <TextField name="message" variant="outlined" label="설명" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
         <div style={{ padding: "5px 0", width: "94%" }}>
-          <ChipInput name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onAdd={(chip) => handleAddChip(chip)} onDelete={(chip) => handleDeleteChip(chip)} />
+          <ChipInput name="tags" variant="outlined" label="태그" fullWidth value={postData.tags} onAdd={(chip) => handleAddChip(chip)} onDelete={(chip) => handleDeleteChip(chip)} />
         </div>
         <Dropzone onDrop={onDrop} multiple={false} maxSize={800000000}>
           {({ getRootProps, getInputProps }) => (
@@ -106,4 +107,4 @@ const Form = ({ currentId, setCurrentId }) => {
   );
 };
 
-export default Form;
+export default Write;
