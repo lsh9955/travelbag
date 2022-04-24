@@ -36,12 +36,12 @@ const Post = ({ post, setCurrentId }) => {
       return likes.find((like) => like === userId) ? (
         <>
           <ThumbUpAltIcon fontSize="small" />
-          &nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? "s" : ""}`}
+          &nbsp;{likes.length > 2 ? `유저님 외 ${likes.length - 1} 명` : `${likes.length}개 좋아요`}
         </>
       ) : (
         <>
           <ThumbUpAltOutlined fontSize="small" />
-          &nbsp;{likes.length} {likes.length === 1 ? "Like" : "Likes"}
+          &nbsp;{likes.length} 개 좋아요
         </>
       );
     }
@@ -49,7 +49,7 @@ const Post = ({ post, setCurrentId }) => {
     return (
       <>
         <ThumbUpAltOutlined fontSize="small" />
-        &nbsp;Like
+        &nbsp;좋아요
       </>
     );
   };
@@ -102,7 +102,7 @@ const Post = ({ post, setCurrentId }) => {
         </Button>
         {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
           <Button size="small" color="secondary" onClick={() => dispatch(deletePost(post._id))}>
-            <DeleteIcon fontSize="small" /> &nbsp; Delete
+            <DeleteIcon fontSize="small" /> &nbsp; 지우기
           </Button>
         )}
       </CardActions>

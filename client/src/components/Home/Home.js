@@ -54,10 +54,10 @@ const Home = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppBar className={classes.appBarSearch} position="static" color="inherit">
-              <TextField onKeyDown={handleKeyPress} name="search" variant="outlined" label="Search Memories" fullWidth value={search} onChange={(e) => setSearch(e.target.value)} />
-              <ChipInput style={{ margin: "10px 0" }} value={tags} onAdd={(chip) => handleAddChip(chip)} onDelete={(chip) => handleDeleteChip(chip)} label="Search Tags" variant="outlined" />
+              <TextField onKeyDown={handleKeyPress} name="검색" variant="outlined" label="제목 검색" fullWidth value={search} onChange={(e) => setSearch(e.target.value)} />
+              <ChipInput style={{ margin: "10px 0" }} value={tags} onAdd={(chip) => handleAddChip(chip)} onDelete={(chip) => handleDeleteChip(chip)} label="태그 검색" variant="outlined" />
               <Button onClick={searchPost} className={classes.searchButton} variant="contained" color="primary">
-                Search
+                검색
               </Button>
             </AppBar>
 
