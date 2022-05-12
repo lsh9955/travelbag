@@ -15,6 +15,9 @@ app.use(cors());
 
 app.use("/post", postRoutes);
 app.use("/user", userRouter);
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 
 const PORT = process.env.PORT || 5000;
 

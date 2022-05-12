@@ -6,7 +6,7 @@ import PostMessage from "../models/postMessage.js";
 const router = express.Router();
 
 export const getPosts = async (req, res) => {
-  const { page } = req.query;
+  const { page } = req.query ;
 
   try {
     const LIMIT = 8;
