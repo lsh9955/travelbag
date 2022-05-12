@@ -18,14 +18,13 @@ const LandingPage = () => {
           <h1 style={{ fontSize: "40px", color: "white", margin: "0 0 0 0", lineHeight: "130%" }}>당신의 여행을 담아드립니다</h1>
         </div>
         <div style={{ height: "20vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Link to="/login" style={{ textDecoration: "none" }}>
+          <Link to="login" style={{ textDecoration: "none" }}>
             <Button
               size="medium"
               sx={{
                 fontSize: "1.3rem",
                 backgroundColor: "none",
                 color: "white",
-
                 "&:hover": {
                   backgroundColor: "skyblue",
                   cursor: "pointer",

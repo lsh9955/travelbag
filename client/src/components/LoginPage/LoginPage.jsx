@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Avatar, Button, Paper, Grid, Typography, Container } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -15,6 +15,9 @@ import bgVideo from "../../assets/KakaoTalk_20220511_181321420 (1).mp4";
 const initialState = { nickname: "", email: "", password: "", confirmPassword: "" };
 
 const LoginPage = () => {
+  const [error, setError] = useState(null);
+  const errorOccured = useSelector((state) => state.auth.errors);
+
   const [form, setForm] = useState(initialState);
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
@@ -23,7 +26,9 @@ const LoginPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
-
+  useEffect(() => {
+    setError(errorOccured);
+  }, [errorOccured]);
   const switchMode = () => {
     setForm(initialState);
     setIsSignup((prevIsSignup) => !prevIsSignup);
@@ -74,6 +79,7 @@ const LoginPage = () => {
             </Grid>
           </form>
         </Paper>
+        <div>{!isSignup && error !== null ? error : ""}</div>
       </Container>
     </div>
   );

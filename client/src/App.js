@@ -13,7 +13,6 @@ import KakaoRedirectHandler from "./components/kakao/KakaoRedirectHandeler";
 import Profile from "./components/Profile";
 const App = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
-
   return (
     <BrowserRouter>
       <Switch>
